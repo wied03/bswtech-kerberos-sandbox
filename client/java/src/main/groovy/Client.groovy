@@ -10,10 +10,27 @@ import org.apache.http.config.RegistryBuilder
 import org.apache.http.impl.auth.SPNegoSchemeFactory
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.client.HttpClients
+import org.apache.http.impl.client.CloseableHttpClient
 import java.security.Principal
 import org.apache.http.util.EntityUtils
 
 class Client {
+  static void doRequest(HttpGet get,
+                        CloseableHttpClient client,
+                        HttpClientContext context) {
+        def response = client.execute(get, context)
+        try {
+            println "got status ${response.statusLine}"
+            response.allHeaders.each { h ->
+                    println "${h.name} - ${h.value}"
+            }
+            println "got response ${EntityUtils.toString(response.entity)}"
+        }
+        finally {
+            response.close()
+        }
+  }
+
   static void main(String[] args) {
         def uriBuilder = new URIBuilder(args[0])
         // if the port does not match the Kerberos database entry, skip it during the lookup
@@ -37,14 +54,8 @@ class Client {
         }
         credsProvider.setCredentials(new AuthScope(null, -1, null), useJaasCreds)
         context.credentialsProvider = credsProvider
-        def get = new HttpGet(uriBuilder.build())
-        def response = client.execute(get, context)
-        try {
-            println "got status ${response.statusLine}"
-            println "got response ${EntityUtils.toString(response.entity)}"
-        }
-        finally {
-            response.close()
-        }
+        doRequest(new HttpGet(uriBuilder.build()), client, context)
+        println 'issue a 2nd request'
+        doRequest(new HttpGet(uriBuilder.build()), client, context)
   }
 }

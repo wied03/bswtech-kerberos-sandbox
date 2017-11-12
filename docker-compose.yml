@@ -1,10 +1,10 @@
 version: '3'
 services:
-  server:
-    build: server
+  kdc:
+    build: kdc
     privileged: true
   client:
     build: client
     privileged: true
     depends_on:
-      - server
+      - kdc

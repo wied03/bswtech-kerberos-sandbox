@@ -2,3 +2,7 @@ version: '3'
 services:
   server:
     build: server
+    privileged: true
+  client:
+    build: client
+    privileged: true

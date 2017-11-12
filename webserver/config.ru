@@ -15,7 +15,7 @@ use Rack::Logger, ::Logger::DEBUG
 use Rack::Auth::Krb::BasicAndNego,
     'EXAMPLE.COM',
     ENV['KEYTAB_LOCATION'],
-    # Not sure why we have to provide the service here but it wasn't deriving it correctly on its own
+    # Rack module does not appear to derive service principal correctly
     'HTTP/webserver@EXAMPLE.COM'
 
 map '/' do

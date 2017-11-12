@@ -11,6 +11,7 @@ import org.apache.http.impl.auth.SPNegoSchemeFactory
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.client.HttpClients
 import java.security.Principal
+import org.apache.http.util.EntityUtils
 
 class Client {
   static void main(String[] args) {
@@ -38,6 +39,12 @@ class Client {
         context.credentialsProvider = credsProvider
         def get = new HttpGet(uriBuilder.build())
         def response = client.execute(get, context)
-        response.dump()
+        try {
+            println "got status ${response.statusLine}"
+            println "got response ${EntityUtils.toString(response.entity)}"
+        }
+        finally {
+            response.close()
+        }
   }
 }

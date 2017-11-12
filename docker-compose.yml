@@ -8,3 +8,9 @@ services:
     privileged: true
     depends_on:
       - kdc
+  webserver:
+    build: webserver
+    depends_on:
+      - kdc
+    ports:
+      - "9292:9292"

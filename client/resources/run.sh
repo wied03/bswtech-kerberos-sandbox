@@ -9,4 +9,4 @@ echo "kinit complete"
 klist
 DEST="http://webserver:9292"
 echo "HTTP request via Java to $DEST"
-/usr/local/bin/java/bin/java $DEST
+JAVA_OPTS="-Dsun.security.krb5.debug=true" /usr/local/bin/java/bin/java $DEST

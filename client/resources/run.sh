@@ -1,8 +1,15 @@
 #!/bin/sh
 
+set -e
+
 DOCKER_IP=`getent hosts kdc | awk '{ print $1 }'`
 echo "Setting up resolution of kerberos.example.com to $DOCKER_IP"
 echo "$DOCKER_IP kerberos.example.com" >> /etc/hosts
+echo "Forcing web server hostname to not include full Docker domain (throws off kerberos principal name)"
+WEB_IP=`getent hosts webserver | awk '{ print $1 }'`
+echo "$WEB_IP webserver" >> /etc/hosts
+echo "Hosts file is now:"
+cat /etc/hosts
 echo "Getting a kerberos ticket for brady/admin@EXAMPLE.COM"
 echo -e "thePassword" | kinit brady/admin@EXAMPLE.COM
 echo "kinit complete"

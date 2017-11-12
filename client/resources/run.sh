@@ -7,3 +7,6 @@ echo "Getting a kerberos ticket for brady/admin@EXAMPLE.COM"
 echo -e "thePassword" | kinit brady/admin@EXAMPLE.COM
 echo "kinit complete"
 klist
+DEST="http://webserver:9292"
+echo "HTTP request via Java to $DEST"
+/usr/local/bin/java/bin/java $DEST

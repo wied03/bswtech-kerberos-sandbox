@@ -8,6 +8,7 @@ services:
     privileged: true
     depends_on:
       - kdc
+      - webserver
   webserver:
     build: webserver
     depends_on:

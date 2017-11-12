@@ -1,0 +1,26 @@
+group 'foo'
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin:'application'
+mainClassName = 'Client'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+  compile 'org.codehaus.groovy:groovy-all:2.4.6'
+  compile 'org.apache.httpcomponents:httpclient:4.4.1'
+}
+
+task uberjar(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+

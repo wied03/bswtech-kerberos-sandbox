@@ -2,15 +2,17 @@ version: '3'
 services:
   kdc:
     build: kdc
+    # Kerberos tools
     privileged: true
   client:
     build: client
-    privileged: true
     depends_on:
       - kdc
       - webserver
   webserver:
     build: webserver
+    # Need to change the hostname in order for rack/spnego/kerb/gss plugin to verify ticket
+    privileged: true
     depends_on:
       - kdc
     ports:

@@ -6,3 +6,5 @@ services:
   client:
     build: client
     privileged: true
+    depends_on:
+      - server

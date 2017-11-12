@@ -16,4 +16,6 @@ echo "kinit complete"
 klist
 DEST="http://webserver:9292"
 echo "HTTP request via Java to $DEST"
+# TODO: https://coderanch.com/t/134541/Setting-JAAS-Configuration-file-programmatically instead of jaas.conf
+# useSubjectCredsOnly is needed to use our operating system ticket
 JAVA_OPTS="-Dsun.security.krb5.debug=true -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.auth.login.config=/etc/jaas.conf" /usr/local/bin/client/client_build/bin/client_build $DEST
